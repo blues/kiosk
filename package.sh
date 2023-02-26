@@ -1,3 +1,4 @@
+# Delete old zip
 [ -e kiosk.zip ] && rm kiosk.zip
 
 # Build the metadata so that it appears robustly in the Notehub firmware UI.  Note that the embedded
