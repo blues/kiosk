@@ -1,0 +1,31 @@
+<html>
+         <head>
+		<script>
+		var counter = -1;
+
+		setInterval(function(){
+			var myCanvas = document.getElementById('myCanvas');
+			var ctx = myCanvas.getContext('2d');
+			var img = new Image;
+			img.onload = function(){
+                ctx.canvas.width  = window.innerWidth;
+                ctx.canvas.height = window.innerHeight;
+                ctx.drawImage(img,ctx.canvas.width*0.075,ctx.canvas.height*0.075,ctx.canvas.width*.85,ctx.canvas.height*.85);
+			};
+
+		// Rotate through images
+		counter--;
+		if(counter < 0) counter = 9;
+		
+		// assuming that your image sequence is named 1.jpg, 2.jpg, 3.jpg ....
+		img.src = counter + '.png';
+
+		// Pause
+		// If you don't want loop use clearTimeout()
+		}, 1000);
+		</script>
+	</head>
+	<body>
+		<canvas id="myCanvas" width="100" height="100"></canvas>
+	</body>
+</html>
