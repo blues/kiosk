@@ -30,3 +30,15 @@ do
 done
 sudo date -s '@'$TIME
 sudo timedatectl set-timezone $ZONE
+
+# Get ready to download a zip file
+rm -rf $DOWNLOAD
+mkdir -p $DOWNLOAD
+
+# Download the file
+download "kiosk-backward.zip" "$DOWNLOAD/download.zip"
+
+# Unzip the download
+pushd $DOWNLOAD
+unzip download.zip
+popd
