@@ -1,22 +1,25 @@
 #!/bin/bash
 set -x
 
-REQ="notecard"
-PRODUCT="com.blues.ray:kiosk"
+INTERFACE="-interface i2c"
+PORT="-port /dev/i2c-1"
+NOTECARD="$HOME/dev/note-cli/notecard/notecard $INTERFACE $PORT"
+PRODUCT="xcom.blues.kiosk"
 PROXY="kiosk"
+DOWNLOAD="$HOME/kiosk-data/download"
 
 # includes
 source download.sh
 source request.sh
 
 # Get ready to download a zip file
-rm -rf ./download 2>/dev/null
-mkdir ./download
+rm -rf $DOWNLOAD
+mkdir -p $DOWNLOAD
 
 # Download the file
-download "kiosk-backward.zip" "download/download.zip"
+download "kiosk-backward.zip" "$DOWNLOAD/download.zip"
 
 # Unzip the download
-pushd download
+pushd $DOWNLOAD
 unzip download.zip
 popd

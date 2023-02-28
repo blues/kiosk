@@ -9,7 +9,7 @@ source request.sh
 INTERFACE="-interface i2c"
 PORT="-port /dev/i2c-1"
 NOTECARD="$HOME/dev/note-cli/notecard/notecard $INTERFACE $PORT"
-PRODUCT="com.blues.ray:kiosk"
+PRODUCT="com.blues.kiosk"
 PROXY="kiosk"
 
 # Set the Notecard operating parameters
