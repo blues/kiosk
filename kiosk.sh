@@ -5,14 +5,13 @@ INTERFACE="-interface i2c"
 PORT="-port /dev/i2c-1"
 REQ="$HOME/dev/note-cli/notecard/notecard $INTERFACE $PORT"
 PRODUCT="com.blues.ray:kiosk"
-HUB="i.staging.blues.tools"
 
 #
 # Set the Notecard operating parameters
 #
 while [ true ]
 do
-  RSP=`$REQ '{"req":"hub.set","host":"'$HUB'","product":"'$PRODUCT'","mode":"continuous","sync":true}'`
+  RSP=`$REQ '{"req":"hub.set","product":"'$PRODUCT'","mode":"continuous","sync":true}'`
   ERR=`echo $RSP | jq .err`
   if [[ "$ERR" == null ]]; then break; fi
   sleep 1
