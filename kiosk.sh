@@ -6,7 +6,6 @@ source ./scripts/download.sh
 
 # Whether or not to run full-screen (for testing)
 TESTING=true
-set +x
 
 # If the Notecard utility exists on the path, assume it is set up properly
 if [[ `which notecard` != "" ]]
@@ -15,6 +14,8 @@ then
 	PORT=""
 	NOTECARD="notecard"
 	SETTIME=false
+	CHROMIUM=""
+	TESTING=true
 else
     # To enable I2C on Raspberry Pi, use
     #   sudo raspi-config
@@ -22,6 +23,7 @@ else
 	INTERFACE="-interface i2c"
 	PORT="-port /dev/i2c-1"
 	NOTECARD="./cli/notecard $INTERFACE $PORT"
+	CHROMIUM="chromium-browser"
 	SETTIME=true
 fi
 
@@ -127,15 +129,18 @@ do
 	KIOSK_DATA="$DATA"
 
 	# Launch the browser if it hasn't yet been launched
+	if [[ "$CHROMIUM" == "" ]]; then
+		BROWSER_LAUNCHED=true
+	fi
 	if [[ "$BROWSER_LAUNCHED" != true ]]; then
 		BROWSER_LAUNCHED=true
 		if [[ "$TESTING" == true ]]; then
-			chromium-browser file://$ACTIVEHTML &
+			$CHROMIUM file://$ACTIVEHTML &
 		else
 			xset -dpms     # disable DPMS (Energy Star) features.
 			xset s off     # disable screen saver
 			xset s noblank # don't blank the video device
-			chromium-browser --display=:0 --kiosk --incognito --window-position=0,0 file://$ACTIVEHTML &
+			$CHROMIUM --display=:0 --kiosk --incognito --window-position=0,0 file://$ACTIVEHTML &
 		fi
 	fi
 
