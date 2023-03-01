@@ -52,9 +52,8 @@ To enable I2C on Raspberry Pi for the Notecard, use
    sudo raspi-config
    Interface Options / I2C / Yes / OK / Finish
 
-Install these prerequisites:
+Prerequisite:
    sudo apt-get install jq
-   git clone https://github.com/blues/kiosk.git
 
 To run it, just switch into the kiosk directory and type "./kiosk.sh"
 
