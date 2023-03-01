@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set +x
 
 # Includes
 source download.sh
@@ -22,12 +22,22 @@ fi
 # Configuration
 DOWNLOAD="$HOME/kiosk-data/download"
 ACTIVE="$HOME/kiosk-data/active"
-ACTIVEDATAJS="$ACTIVE/resources/data.js"
+ACTIVEHTML="$ACTIVE/resources/index.htm"
+ACTIVEDATA="$ACTIVE/resources/data.js"
 PRODUCT="com.blues.kiosk"
 PROXY="kiosk"
 
+# TEST
+if [[ false == true ]]; then
+unclutter -idle 0
+xset -dpms     # disable DPMS (Energy Star) features.
+xset s off     # disable screen saver
+xset s noblank # don't blank the video device
+timeout 20 chromium-browser --display=:0 --kiosk --incognito --window-position=0,0 file://$ACTIVEHTML
+fi
+
 # Set the Notecard operating parameters
-echo "Initializing Notecard"
+echo "Configuring Notecard"
 req '{"req":"hub.set","product":"'$PRODUCT'","mode":"continuous","sync":true}'
 
 # Set the time and zone from the Notehub under the assumption
@@ -62,8 +72,8 @@ do
 	DOWNLOAD_TIME=`echo $RSP | jq -r .body.kiosk_download_time`
 
 	# Reload what version we've downloaded
-	KIOSK_CONTENT=`cat "$DOWNLOAD/vars/CONTENT.txt"`
-	KIOSK_CONTENT_VERSION=`cat "$DOWNLOAD/vars/CONTENT_VERSION.txt"`
+	KIOSK_CONTENT=`cat "$ACTIVE/vars/CONTENT" 2>/dev/null`
+	KIOSK_CONTENT_VERSION=`cat "$ACTIVE/vars/CONTENT_VERSION" 2>/dev/null`
 
 	# If this is not the current local time, it's not ok to download.
 	DOWNLOAD_NOW=false
@@ -88,6 +98,7 @@ do
 
 	# If it's time to download, do it
 	if [[ "$DOWNLOAD_NOW" == true ]]; then
+		echo "Downloading $CONTENT"
 
 		# Do the download
 		rm -rf $DOWNLOAD
@@ -99,11 +110,12 @@ do
 
 		# Remember what we downloaded
 		mkdir -p $DOWNLOAD/vars
-		echo "$CONTENT" >$DOWNLOAD/vars/CONTENT.txt
-		echo "$CONTENT_VERSION" >$DOWNLOAD/vars/CONTENT_VERSION.txt
+		echo "$CONTENT" >$DOWNLOAD/vars/CONTENT
+		echo "$CONTENT_VERSION" >$DOWNLOAD/vars/CONTENT_VERSION
 
 		# Make it active
-		cp -R $DOWNLOAD $ACTIVE
+		mkdir -p $ACTIVE
+		cp -R $DOWNLOAD/* $ACTIVE
 
 		# Force the kiosk data to be rewritten
 		KIOSK_DATA=""
@@ -112,7 +124,8 @@ do
 
 	# Rewrite the data file and save for next iteration
 	if [[ "$DATA" != "" && "$DATA" != "$KIOSK_DATA" ]]; then
-		echo "var data = $DATA" >$ACTIVEDATAJS
+		echo "Writing new data: $DATA"
+		echo "var data = $DATA" >$ACTIVEDATA
 	fi
 	KIOSK_DATA="$DATA"
 
