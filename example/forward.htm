@@ -1,28 +1,42 @@
 <html>
-         <head>
+    <head>
 		<script>
-		var counter = -1;
 
-		setInterval(function(){
-			var myCanvas = document.getElementById('myCanvas');
-			var ctx = myCanvas.getContext('2d');
-			var img = new Image;
-			img.onload = function(){
-                ctx.canvas.width  = window.innerWidth;
-                ctx.canvas.height = window.innerHeight;
-                ctx.drawImage(img,ctx.canvas.width*0.075,ctx.canvas.height*0.075,ctx.canvas.width*.85,ctx.canvas.height*.85);
-			};
+		 function load_js()
+		 {
+		     var head= document.getElementsByTagName('head')[0];
+		     var script= document.createElement('script');
+		     script.src= './data.js';
+		     head.appendChild(script);
+		 }
 
-		// Rotate through images
-		counter++;
-		if(counter > 9) counter = 0;
-		
-		// assuming that your image sequence is named 1.jpg, 2.jpg, 3.jpg ....
-		img.src = counter + '.png';
+		 var counter = -1;
 
-		// Pause
-		// If you don't want loop use clearTimeout()
-		}, 1000);
+		 setInterval(function(){
+			 load_js();
+			 var myCanvas = document.getElementById('myCanvas');
+			 var ctx = myCanvas.getContext('2d');
+			 var img = new Image;
+			 img.onload = function(){
+                 ctx.canvas.width  = window.innerWidth;
+                 ctx.canvas.height = window.innerHeight;
+                 ctx.drawImage(img,ctx.canvas.width*0.075,ctx.canvas.height*0.075,ctx.canvas.width*.85,ctx.canvas.height*.85);
+				 ctx.beginPath();
+				 ctx.font = "30px serif";
+				 ctx.textAlign = "center";
+				 ctx.fillText(data.message, window.innerWidth/2, 40);
+			 };
+
+			 // Rotate through images
+			 counter++;
+			 if(counter > 9) counter = 0;
+
+			 // assuming that your image sequence is named 1.jpg, 2.jpg, 3.jpg ....
+				 img.src = counter + '.png';
+
+			 // Pause
+			 // If you don't want loop use clearTimeout()
+		 }, 1000);
 		</script>
 	</head>
 	<body>
