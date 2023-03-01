@@ -1,3 +1,11 @@
+# This is a generic packager that builds a ZIP file containing resources, such as
+# web pages or python scripts.  The resulting ZIP file contains a Notehub-compliant
+# JSON data structure describing metadata that, if the package is uploaded to the
+# notehub, will display some of that metadata in the UI.  However, the package
+# is simply a ZIP file and so even if this package is used outside the context of
+# Notehub it is useful because its version is self-describing, and you can
+# always look at what's inside with:
+# unzip -p <yourfile.zip> "metadata/info.bin"
 
 # Delete old zip
 [ -e kiosk.zip ] && rm kiosk.zip
