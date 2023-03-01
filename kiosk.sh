@@ -15,7 +15,7 @@ then
 else
 	INTERFACE="-interface i2c"
 	PORT="-port /dev/i2c-1"
-	NOTECARD="$HOME/dev/note-cli/notecard/notecard $INTERFACE $PORT"
+	NOTECARD="./cli/notecard $INTERFACE $PORT"
 	SETTIME=true
 fi
 
