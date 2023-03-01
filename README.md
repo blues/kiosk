@@ -46,6 +46,8 @@ Notecard firmware 15894 or later should be used, because of a new "total" return
 
 It's best to use wired networking and NOT to enable WiFi, so that you can easily test the script's ability to set the time on the local RPi by using the Notecard.
 
+NOTE that the Notecard CLI version 1.2.1 must be used because of some minor but important fixes, and this is the version in the "cli" folder of this repo.
+
 To enable I2C on Raspberry Pi for the Notecard, use
    sudo raspi-config
    Interface Options / I2C / Yes / OK / Finish
