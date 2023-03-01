@@ -1,8 +1,0 @@
-#!/bin/bash
-set -x
-
-interface=-interface i2c
-port=-port /dev/i2c-1
-notecard=$HOME/dev/note-cli/notecard $interface $port
-
-notecard '{"req":"card.version"}'

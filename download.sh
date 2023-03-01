@@ -22,6 +22,8 @@ function download {
 		TOTAL=`echo $RSP | jq -r .total`
 		if [[ "$OFFSET" -ge "$TOTAL" ]]; then break; fi
 
+		echo "$OFFSET/$TOTAL downloaded"
+
 	done
 
 }
