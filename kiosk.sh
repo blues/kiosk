@@ -16,9 +16,9 @@ then
 	NOTECARD="notecard"
 	SETTIME=false
 else
-        # To enable I2C on Raspberry Pi, use
-        #   sudo raspi-config
-        #   Interface Options / I2C / Yes / OK / Finish
+    # To enable I2C on Raspberry Pi, use
+    #   sudo raspi-config
+    #   Interface Options / I2C / Yes / OK / Finish
 	INTERFACE="-interface i2c"
 	PORT="-port /dev/i2c-1"
 	NOTECARD="./cli/notecard $INTERFACE $PORT"
@@ -75,11 +75,11 @@ do
 	# If this is not the current local time, it's not ok to download.
 	DOWNLOAD_NOW=false
 	if [[ `date +"%H"` == "$DOWNLOAD_TIME" ]]; then
-	   DOWNLOAD_NOW=true
+		DOWNLOAD_NOW=true
 	fi
 	# However, if it's non-numeric, it's always OK to download
 	if ! [[ $DOWNLOAD_TIME =~ ^[0-9]+$ ]]; then
-	   DOWNLOAD_NOW=true
+		DOWNLOAD_NOW=true
 	fi
 
 	# If the content filename and version haven't changed, download
@@ -128,15 +128,15 @@ do
 
 	# Launch the browser if it hasn't yet been launched
 	if [[ "$BROWSER_LAUNCHED" != true ]]; then
-	   BROWSER_LAUNCHED=true
-	   if [[ "$TESTING" == true ]]; then
-	       chromium-browser file://$ACTIVEHTML &
-	   else
-	       xset -dpms     # disable DPMS (Energy Star) features.
-	       xset s off     # disable screen saver
-	       xset s noblank # don't blank the video device
-	       chromium-browser --display=:0 --kiosk --incognito --window-position=0,0 file://$ACTIVEHTML &
-	   fi
+		BROWSER_LAUNCHED=true
+		if [[ "$TESTING" == true ]]; then
+			chromium-browser file://$ACTIVEHTML &
+		else
+			xset -dpms     # disable DPMS (Energy Star) features.
+			xset s off     # disable screen saver
+			xset s noblank # don't blank the video device
+			chromium-browser --display=:0 --kiosk --incognito --window-position=0,0 file://$ACTIVEHTML &
+		fi
 	fi
 
 	# Pause
