@@ -4,5 +4,4 @@ To enable I2C on Raspberry Pi for the Notecard, use
 
 Also, kiosk.sh depends upon:
    sudo apt-get install jq
-   sudo apt-get install unclutter
 

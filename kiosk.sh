@@ -1,5 +1,5 @@
 #!/bin/bash
-set +x
+set -x
 
 # Includes for Notecard requests and file downloads
 source ./scripts/request.sh
@@ -7,7 +7,6 @@ source ./scripts/download.sh
 
 # Dependencies
 # sudo apt-get install jq
-# sudo apt-get install unclutter
 
 # If the Notecard utility exists on the path, assume it is set up properly
 if [[ `which notecard` != "" ]]
@@ -130,7 +129,6 @@ do
 	# Launch the browser if it hasn't yet been launched
 	if [[ "$BROWSER_LAUNCHED" != true ]]; then
 	   BROWSER_LAUNCHED=true
-	   unclutter -idle 0
 	   xset -dpms     # disable DPMS (Energy Star) features.
 	   xset s off     # disable screen saver
 	   xset s noblank # don't blank the video device
