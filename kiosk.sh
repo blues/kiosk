@@ -128,7 +128,8 @@ do
 	KIOSK_DATA="$DATA"
 
 	# Launch the browser if it hasn't yet been launched
-	if [[ "$BROWSER_LAUNCHED != true ]]; then
+	if [[ "$BROWSER_LAUNCHED" != true ]]; then
+	   BROWSER_LAUNCHED=true
 	   unclutter -idle 0
 	   xset -dpms     # disable DPMS (Energy Star) features.
 	   xset s off     # disable screen saver
