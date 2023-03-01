@@ -1,9 +1,13 @@
 #!/bin/bash
 set +x
 
-# Includes
-source download.sh
-source request.sh
+# Includes for Notecard requests and file downloads
+source ./scripts/request.sh
+source ./scripts/download.sh
+
+# Dependencies
+# sudo apt-get install jq
+# sudo apt-get install unclutter
 
 # If the Notecard utility exists on the path, assume it is set up properly
 if [[ `which notecard` != "" ]]
@@ -13,6 +17,9 @@ then
 	NOTECARD="notecard"
 	SETTIME=false
 else
+        # To enable I2C on Raspberry Pi, use
+        #   sudo raspi-config
+        #   Interface Options / I2C / Yes / OK / Finish
 	INTERFACE="-interface i2c"
 	PORT="-port /dev/i2c-1"
 	NOTECARD="./cli/notecard $INTERFACE $PORT"
@@ -26,15 +33,6 @@ ACTIVEHTML="$ACTIVE/resources/index.htm"
 ACTIVEDATA="$ACTIVE/resources/data.js"
 PRODUCT="com.blues.kiosk"
 PROXY="kiosk"
-
-# TEST
-if [[ false == true ]]; then
-unclutter -idle 0
-xset -dpms     # disable DPMS (Energy Star) features.
-xset s off     # disable screen saver
-xset s noblank # don't blank the video device
-timeout 20 chromium-browser --display=:0 --kiosk --incognito --window-position=0,0 file://$ACTIVEHTML
-fi
 
 # Set the Notecard operating parameters
 echo "Configuring Notecard"
@@ -128,6 +126,15 @@ do
 		echo "var data = $DATA" >$ACTIVEDATA
 	fi
 	KIOSK_DATA="$DATA"
+
+	# Launch the browser if it hasn't yet been launched
+	if [[ "$BROWSER_LAUNCHED != true ]]; then
+	   unclutter -idle 0
+	   xset -dpms     # disable DPMS (Energy Star) features.
+	   xset s off     # disable screen saver
+	   xset s noblank # don't blank the video device
+	   chromium-browser --display=:0 --kiosk --incognito --window-position=0,0 file://$ACTIVEHTML
+	fi
 
 	# Pause
 	sleep 5
