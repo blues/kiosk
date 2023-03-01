@@ -1,12 +1,12 @@
 #!/bin/bash
-set -x
 
 # Includes for Notecard requests and file downloads
 source ./scripts/request.sh
 source ./scripts/download.sh
 
-# Dependencies
-# sudo apt-get install jq
+# Whether or not to run full-screen (for testing)
+TESTING=true
+set +x
 
 # If the Notecard utility exists on the path, assume it is set up properly
 if [[ `which notecard` != "" ]]
@@ -129,10 +129,14 @@ do
 	# Launch the browser if it hasn't yet been launched
 	if [[ "$BROWSER_LAUNCHED" != true ]]; then
 	   BROWSER_LAUNCHED=true
-	   xset -dpms     # disable DPMS (Energy Star) features.
-	   xset s off     # disable screen saver
-	   xset s noblank # don't blank the video device
-	   chromium-browser --display=:0 --kiosk --incognito --window-position=0,0 file://$ACTIVEHTML
+	   if [[ "$TESTING" == true ]]; then
+	       chromium-browser file://$ACTIVEHTML &
+	   else
+	       xset -dpms     # disable DPMS (Energy Star) features.
+	       xset s off     # disable screen saver
+	       xset s noblank # don't blank the video device
+	       chromium-browser --display=:0 --kiosk --incognito --window-position=0,0 file://$ACTIVEHTML &
+	   fi
 	fi
 
 	# Pause
