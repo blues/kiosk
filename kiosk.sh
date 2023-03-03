@@ -38,7 +38,7 @@ PROXY="kiosk"
 # Set the Notecard operating parameters
 echo "Configuring Notecard"
 req '{"req":"card.io","rate":1}'  ## set modem speed to maximum
-req '{"req":"hub.set","product":"'$PRODUCT'","mode":"continuous","sync":true}'
+req '{"req":"hub.set","product":"'$PRODUCT'","mode":"continuous","sync":true,"unsecure":true}'
 
 # Set the time and zone from the Notehub under the assumption
 # that this RPi isn't connected to the network and so it
@@ -70,6 +70,12 @@ do
 	CONTENT=`echo "$RSP" | jq -r .body.kiosk_content`
 	CONTENT_VERSION=`echo $RSP | jq -r .body.kiosk_content_version`
 	DOWNLOAD_TIME=`echo $RSP | jq -r .body.kiosk_download_time`
+	while [ true ]
+	do
+		if [[ "$CONTENT" != "" ]]; then
+			break
+		fi
+	done
 
 	# Reload what version we've downloaded
 	KIOSK_CONTENT=`cat "$ACTIVE/vars/CONTENT" 2>/dev/null`
