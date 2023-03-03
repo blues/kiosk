@@ -37,6 +37,7 @@ PROXY="kiosk"
 
 # Set the Notecard operating parameters
 echo "Configuring Notecard"
+req '{"req":"card.io","rate":1}'  ## set modem speed to maximum
 req '{"req":"hub.set","product":"'$PRODUCT'","mode":"continuous","sync":true}'
 
 # Set the time and zone from the Notehub under the assumption
