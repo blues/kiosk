@@ -23,7 +23,7 @@ else
 	#   Interface Options / I2C / Yes / OK / Finish
 ##	INTERFACE="-interface i2c"
 ##	PORT="-port /dev/i2c-1"
-##	SPEED=""
+##	NOTECARD="./cli/notecard $INTERFACE $PORT"
 	# To enable Serial on Raspberry Pi, use this after setting
 	# the "SERIAL" switch on the back of the Notecarrier-Pi to ON
 	#   sudo raspi-config
@@ -33,9 +33,10 @@ else
 	#     OK / Finish / Restart
 	INTERFACE="-interface serial"
 	PORT="-port /dev/ttyS0"
-	SPEED="-portconfig 115200"
+	SPEED="921600"
 	#
-	NOTECARD="./cli/notecard $INTERFACE $PORT $SPEED"
+	NOTECARD_LOWSPEED="./cli/notecard $INTERFACE $PORT -portconfig 115200"
+	NOTECARD="./cli/notecard $INTERFACE $PORT -portconfig $SPEED"
 	CHROMIUM="chromium-browser"
 	SETTIME=true
 fi
@@ -47,6 +48,13 @@ ACTIVEHTML="$ACTIVE/resources/index.htm"
 ACTIVEDATA="$ACTIVE/resources/data.js"
 PRODUCT="com.blues.kiosk"
 PROXY="kiosk"
+
+# Set the baud rate if we're using serial
+if [[ "$SPEED" != "" ]]; then
+	echo "Setting communications port speed"
+	$NOTECARD_LOWSPEED '{"cmd":"card.aux.serial","mode":"req","rate":'$SPEED'}' >/dev/null 2>/dev/null
+	$NOTECARD '{"cmd":"card.version"}'
+fi
 
 # Set the Notecard operating parameters
 echo "Configuring Notecard"
