@@ -48,9 +48,7 @@ It's best to use wired networking and NOT to enable WiFi, so that you can easily
 
 NOTE that the Notecard CLI version 1.2.1 must be used because of some minor but important fixes, and this is the version in the "cli" folder of this repo.
 
-To enable I2C on Raspberry Pi for the Notecard, use
-   sudo raspi-config
-   Interface Options / I2C / Yes / OK / Finish
+To enable I2C on Raspberry Pi for the Notecard, use instructions in kiosk.sh.
 
 Prerequisite:
    sudo apt-get install jq
