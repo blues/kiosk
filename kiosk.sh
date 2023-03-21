@@ -18,12 +18,14 @@ then
 	CHROMIUM=""
 	TESTING=true
 else
+	CHROMIUM="chromium-browser"
+	SETTIME=true
 	# To enable I2C on Raspberry Pi, use
 	#   sudo raspi-config
 	#   Interface Options / I2C / Yes / OK / Finish
-##	INTERFACE="-interface i2c"
-##	PORT="-port /dev/i2c-1"
-##	NOTECARD="./cli/notecard $INTERFACE $PORT"
+	INTERFACE="-interface i2c"
+	PORT="-port /dev/i2c-1"
+	NOTECARD="./cli/notecard $INTERFACE $PORT"
 	# To enable Serial on Raspberry Pi, use this after setting
 	# the "SERIAL" switch on the back of the Notecarrier-Pi to ON
 	#   sudo raspi-config
@@ -31,14 +33,11 @@ else
 	#     Would you like login shell over serial? No
 	#     Would you like the serial port hardware to be enabled? Yes
 	#     OK / Finish / Restart
-	INTERFACE="-interface serial"
-	PORT="-port /dev/ttyS0"
-	SPEED="921600"
-	#
-	NOTECARD_LOWSPEED="./cli/notecard $INTERFACE $PORT -portconfig 115200"
-	NOTECARD="./cli/notecard $INTERFACE $PORT -portconfig $SPEED"
-	CHROMIUM="chromium-browser"
-	SETTIME=true
+##	INTERFACE="-interface serial"
+##	PORT="-port /dev/ttyS0"
+##	SPEED="576000"  # 921600 has some errors likely due to clock skew
+##	NOTECARD_LOWSPEED="./cli/notecard $INTERFACE $PORT -portconfig 115200"
+##	NOTECARD="./cli/notecard $INTERFACE $PORT -portconfig $SPEED"
 fi
 
 # Configuration
